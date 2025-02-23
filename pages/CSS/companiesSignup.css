@@ -1,0 +1,31 @@
+.custom-container {
+  display: flex;
+  flex-direction: row-reverse;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 2rem;
+  align-items: center;
+}
+.custom-image {
+    max-width: 400px;
+}
+.custom-form {
+    background: #fff;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.custom-form h5 {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+.custom-button {
+    background-color: #28a745;
+    color: white;
+}
+.custom-link {
+    text-align: center;
+    margin-top: 1rem;
+}
