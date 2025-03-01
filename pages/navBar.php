@@ -73,12 +73,18 @@ require_once 'config.php'; // استدعاء `BASE_URL`
                     <?php if ($_SESSION['role'] === 'employee'): ?>
                         <a href="<?= BASE_URL ?>employee/resume.php" class="btn btn-outline-primary">
                             <i class="fas fa-file-pdf"></i> إدارة السيرة الذاتية
-                      
+                        </a>
+                        <a href="<?= BASE_URL ?>employee/findJobs.php" class="btn btn-outline-secondary">
+                            <i class="fas fa-briefcase"></i> البحث عن وظائف
+                        </a>
+                        <a href="<?= BASE_URL ?>employee/recommended_jobs.php" class="btn btn-outline-success">
+                            <i class="fas fa-briefcase"></i> وظائف مخصصة
+                        </a>
                         <a href="<?= BASE_URL ?>employee/edit_profile.php" class="btn btn-outline-info">
                             <i class="fas fa-user-edit"></i> تعديل الحساب
                         </a>
+                  
                 
-                      
                     <?php endif; ?>
                     <a href="<?= BASE_URL ?>logout.php" class="btn btn-danger">
                         <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
