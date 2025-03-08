@@ -130,8 +130,8 @@ $result = $conn->query($query);
                 <form method="GET">
                     <select name="location" class="form-control">
                         <option value="All">All Location</option>
-                        <option value="Dhaka" <?= $search_location == 'mansoura' ? 'selected' : ''; ?>>mansoura</option>
-                        <option value="Dhaka" <?= $search_location == 'cairo' ? 'selected' : ''; ?>>cairo</option>
+                        <option value="mansoura" <?= $search_location == 'mansoura' ? 'selected' : ''; ?>>mansoura</option>
+                        <option value="cairo" <?= $search_location == 'cairo' ? 'selected' : ''; ?>>cairo</option>
                     </select>
                     <button class="search-btn mt-2" type="submit">Search</button>
                 </form>
@@ -167,7 +167,7 @@ $result = $conn->query($query);
                 </form>
             </div>
         </div>
-   
+  
     <div class="col-md-3">
             <div class="filter-box">
                 <label class="filter-title">Select Jobs</label>
@@ -189,7 +189,7 @@ $result = $conn->query($query);
             </div>
         </div>
     </div>
-   
+  
     <!-- عرض الوظائف -->
     <div class="row mt-4">
         <div class="col-md-12">
