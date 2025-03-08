@@ -71,8 +71,9 @@ require_once 'config.php'; // استدعاء `BASE_URL`
             <div class="d-flex gap-2">
                 <?php if (isset($_SESSION['role'])): ?>
                     <?php if ($_SESSION['role'] === 'employee'): ?>
-                        <a href="<?= BASE_URL ?>employee/resume.php" class="btn btn-outline-primary">
-                            <i class="fas fa-file-pdf"></i> إدارة السيرة الذاتية
+                      
+                        <a href="<?= BASE_URL ?>employee/myApplications.php" class="btn btn-outline-primary">   
+                            <i class="fas fa-briefcase"></i> طلباتي
                         </a>
                         <a href="<?= BASE_URL ?>employee/findJobs.php" class="btn btn-outline-secondary">
                             <i class="fas fa-briefcase"></i> البحث عن وظائف

@@ -10,11 +10,12 @@ require '../db_connection.php';
 $user_id = $_SESSION['user_id'];
 
 // جلب بيانات المستخدم
-$stmt = $conn->prepare("SELECT name, email, phone, location, profile_pic FROM users WHERE user_id = ?");
+$stmt = $conn->prepare("SELECT name, email, phone, location, specialization, profile_pic, cv_link FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 
+$current_cv = $user['cv_link'] ?? null;
 $success_message = "";
 $error_message = "";
 
@@ -24,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $phone = trim($_POST['phone']);
     $location = trim($_POST['location']);
+    $specialization = trim($_POST['specialization']);
 
     // تحديث الصورة الشخصية
     if (!empty($_FILES['profile_pic']['name'])) {
@@ -34,17 +36,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $profile_pic = "profile_" . $user_id . ".jpg";
         $target_file = $target_dir . $profile_pic;
-        move_uploaded_file($_FILES['profile_pic']['tmp_name'], $target_file);
 
-        // تحديث الصورة الشخصية في قاعدة البيانات
-        $stmt = $conn->prepare("UPDATE users SET profile_pic = ? WHERE user_id = ?");
-        $stmt->bind_param("si", $profile_pic, $user_id);
-        $stmt->execute();
+        if (move_uploaded_file($_FILES['profile_pic']['tmp_name'], $target_file)) {
+            // تحديث الصورة الشخصية في قاعدة البيانات
+            $stmt = $conn->prepare("UPDATE users SET profile_pic = ? WHERE user_id = ?");
+            $stmt->bind_param("si", $profile_pic, $user_id);
+            $stmt->execute();
+        } else {
+            $error_message = "فشل في رفع الصورة الشخصية.";
+        }
+    }
+
+    // التحقق من رفع السيرة الذاتية
+    if (!empty($_FILES['cv_link']['name'])) {
+        $cv = $_FILES['cv_link'];
+
+        // التحقق من نوع الملف (PDF فقط)
+        $allowed_types = ['application/pdf'];
+        if (!in_array($cv['type'], $allowed_types)) {
+            $error_message = "يجب أن يكون الملف بصيغة PDF فقط.";
+        } elseif ($cv['size'] > 2 * 1024 * 1024) { // 2MB كحد أقصى
+            $error_message = "حجم الملف يجب ألا يتجاوز 2 ميجابايت.";
+        } else {
+            // حفظ الملف في مجلد "uploads"
+            $uploads_dir = '../uploads/cvs/';
+            if (!is_dir($uploads_dir)) {
+                mkdir($uploads_dir, 0777, true);
+            }
+
+            $cv_name = "cv_" . $user_id . ".pdf";
+            $cv_path = $uploads_dir . $cv_name;
+
+            if (move_uploaded_file($cv['tmp_name'], $cv_path)) {
+                // تحديث رابط السيرة الذاتية في قاعدة البيانات
+                $cv_link = "uploads/cvs/" . $cv_name;
+                $stmt = $conn->prepare("UPDATE users SET cv_link = ? WHERE user_id = ?");
+                $stmt->bind_param("si", $cv_link, $user_id);
+
+                if ($stmt->execute()) {
+                    $success_message = $current_cv ? "تم تحديث السيرة الذاتية بنجاح." : "تم إضافة السيرة الذاتية بنجاح.";
+                    $current_cv = $cv_link;
+                } else {
+                    $error_message = "حدث خطأ أثناء حفظ السيرة الذاتية.";
+                }
+            } else {
+                $error_message = "فشل في رفع الملف.";
+            }
+        }
     }
 
     // تحديث البيانات في قاعدة البيانات
-    $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, phone = ?, location = ? WHERE user_id = ?");
-    $stmt->bind_param("ssssi", $name, $email, $phone, $location, $user_id);
+    $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, phone = ?, location = ?, specialization = ? WHERE user_id = ?");
+    $stmt->bind_param("sssssi", $name, $email, $phone, $location, $specialization, $user_id );
 
     if ($stmt->execute()) {
         $success_message = "تم تحديث البيانات بنجاح.";
@@ -117,8 +160,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="mb-3">
                     <label class="form-label">رقم الهاتف:</label>
-                    <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($user['phone']); ?>">
+                    <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($user['phone'] ?? ''); ?>">
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label">التخصص:</label>
+                    <input type="text" name="specialization" class="form-control" value="<?= htmlspecialchars($user['specialization'] ?? ''); ?>">
+                </div>
+                <div class="mb-3">
+    <h5 class="card-title">السيرة الذاتية الحالية</h5>
+    <?php if ($current_cv): ?>
+        <p>
+            <a href="../<?= $current_cv; ?>" target="_blank" class="btn btn-success">
+                عرض السيرة الذاتية
+            </a>
+        </p>
+    <?php else: ?>
+        <p class="text-muted">لا توجد سيرة ذاتية حالياً.</p>
+    <?php endif; ?>
+
+    <label for="cv" class="form-label">اختر ملف السيرة الذاتية (PDF فقط):</label>
+    <input type="file" name="cv_link" id="cv_link" class="form-control">
+</div>
+
+
+
 
                 <div class="mb-3">
                     <label class="form-label">الموقع:</label>

@@ -5,6 +5,7 @@ $search_keyword = $_GET['keyword'] ?? '';
 $search_location = $_GET['location'] ?? '';
 $search_category = $_GET['category'] ?? '';
 $search_type = $_GET['job_type'] ?? '';
+$search_jobs = $_GET['selected_jobs'] ?? [];
 
 $query = "SELECT * FROM jobs WHERE 1";
 
@@ -20,6 +21,12 @@ if (!empty($search_category) && $search_category !== 'All') {
 }
 if (!empty($search_type) && $search_type !== 'All') {
     $query .= " AND job_type = '$search_type'";
+}
+if (!empty($search_jobs) && is_array($search_jobs)) {
+    $jobs_in_query = implode(',', array_map(function ($job_id) {
+        return "'" . $job_id . "'";
+    }, $search_jobs));
+    $query .= " AND job_id IN ($jobs_in_query)";
 }
 
 $query .= " ORDER BY created_at DESC";
@@ -102,7 +109,7 @@ $result = $conn->query($query);
 
     <div class="row">
         <!-- بحث بالكلمات المفتاحية -->
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="filter-box">
                 <label class="filter-title">Search Keywords</label>
                 <form method="GET">
@@ -117,13 +124,14 @@ $result = $conn->query($query);
         </div>
 
         <!-- البحث بالموقع -->
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="filter-box">
                 <label class="filter-title">Location</label>
                 <form method="GET">
                     <select name="location" class="form-control">
                         <option value="All">All Location</option>
-                        <option value="Dhaka" <?= $search_location == 'Dhaka' ? 'selected' : ''; ?>>Dhaka</option>
+                        <option value="Dhaka" <?= $search_location == 'mansoura' ? 'selected' : ''; ?>>mansoura</option>
+                        <option value="Dhaka" <?= $search_location == 'cairo' ? 'selected' : ''; ?>>cairo</option>
                     </select>
                     <button class="search-btn mt-2" type="submit">Search</button>
                 </form>
@@ -131,7 +139,7 @@ $result = $conn->query($query);
         </div>
 
         <!-- البحث بالفئة -->
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="filter-box">
                 <label class="filter-title">Category</label>
                 <form method="GET">
@@ -159,24 +167,52 @@ $result = $conn->query($query);
                 </form>
             </div>
         </div>
+   
+    <div class="col-md-3">
+            <div class="filter-box">
+                <label class="filter-title">Select Jobs</label>
+                <form method="GET">
+                    <?php
+                    $jobs_query = "SELECT DISTINCT job_id, title FROM jobs ORDER BY title";
+                    $jobs_result = mysqli_query($conn, $jobs_query);
+                    ?>
+                    <div class="form-check">
+                        <?php while ($job = $jobs_result->fetch_assoc()): ?>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="selected_jobs[]" value="<?= $job['job_id']; ?>" id="<?= $job['job_id']; ?>">
+                                <label class="form-check-label" for="<?= $job['job_id']; ?>"><?= htmlspecialchars($job['title']); ?></label>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
+                    <button class="search-btn mt-2" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
     </div>
-
+   
     <!-- عرض الوظائف -->
     <div class="row mt-4">
         <div class="col-md-12">
             <h4>نتائج الوظائف</h4>
+          
             <?php while ($job = $result->fetch_assoc()): ?>
                 <div class="job-card">
                     <!-- <img src="../uploads/company_logos/default.png" alt="Company Logo" class="job-logo"> -->
                     
                     <div class="job-details">
-                        <h2 class="job-title"><?= htmlspecialchars($job['title']); ?></h2>
-                        <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($job['location']); ?></p>
-                        <p><i class="fas fa-briefcase"></i> <?= htmlspecialchars($job['category']); ?></p>
+                        <h2 class="job-title"><?= htmlspecialchars($job['title'] ?? '', ENT_QUOTES, 'UTF-8'); ?></h2>
+                        <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($job['location'] ?? '', ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p><i class="fas fa-briefcase"></i> <?= htmlspecialchars($job['category'] ?? '', ENT_QUOTES, 'UTF-8'); ?></p>
                         <p><i class="fas fa-dollar-sign"></i> <?= number_format((float) $job['salary'], 2); ?></p>
                         <p><i class="fas fa-calendar-alt"></i> <?= date('Y-m-d', strtotime($job['created_at'])); ?></p>
+                        <?php if ($job['expiration_date'] < date('Y-m-d')): ?>
+                        <!-- hide expired job -->
+                    <?php else: ?>
+                        <a href="apply_job.php?job_id=<?= $job['job_id']; ?>" style=" padding-bottom: 10px; " class="btn btn-primary job-apply-btn float-right">Apply</a>
+                    <?php endif; ?>
                     </div>
-
+                  
+                      
                     <?php if ($job['expiration_date'] < date('Y-m-d')): ?>
                         <span class="badge badge-expired">Expired</span>
                     <?php endif; ?>
