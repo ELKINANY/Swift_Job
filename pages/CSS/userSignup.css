@@ -1,0 +1,131 @@
+.reg-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.reg-image {
+  flex: 1;
+  text-align: center;
+}
+
+.reg-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.reg-form {
+  flex: 1;
+  max-width: 500px;
+}
+
+.reg-heading {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #2d3748;
+}
+
+.input-box {
+  margin-bottom: 20px;
+}
+
+.reg-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d1d9f0;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: right;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.reg-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.3);
+}
+
+.reg-submit {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reg-submit:hover {
+  background: linear-gradient(90deg, #1e3a8a, #1e40af);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.existing-account {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.existing-account a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.existing-account a:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .reg-wrapper {
+      flex-direction: column;
+  }
+
+  .reg-image {
+      margin-bottom: 30px;
+  }
+
+  .reg-form {
+      width: 100%;
+  }
+}
+
+.input-group .select-container {
+  position: relative;
+}
+
+.input-group .custom-arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  height: 100%;
+  width: 4rem;
+  pointer-events: none;
+}
+
+.input-group .custom-arrow::before {
+  --size: 0.5rem;
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.input-group .custom-arrow::before {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid #3b82f6;
+}
+
+.select-container {
+  width: 100%;
+}

@@ -1,0 +1,39 @@
+.job-item-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  margin-bottom: 1rem;
+}
+
+.job-item-container:hover {
+  border: 1px solid #3b82f6;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.profile-container img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.job-info-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.validity-active {
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+.validity-expired {
+  color: #1e3a8a;
+  font-weight: bold;
+}

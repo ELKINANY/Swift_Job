@@ -1,0 +1,115 @@
+:root {
+  --primary: #4361ee;
+  --secondary: #3f37c9;
+  --accent: #4895ef;
+  --dark: #2b2d42;
+  --light: #f8f9fa;
+  --success: #4cc9f0;
+  --warning: #f8961e;
+  --danger: #f72585;
+}
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* الشريط الجانبي */
+.sidebar {
+  width: 280px;
+  background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+  color: white;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  position: relative;
+  z-index: 10;
+}
+
+.sidebar-header {
+  padding: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-header h3 i {
+  margin-left: 10px;
+}
+
+.sidebar-menu {
+  padding: 20px;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateX(5px);
+}
+
+.sidebar-menu a i {
+  margin-left: 10px;
+  font-size: 18px;
+  width: 25px;
+  text-align: center;
+}
+
+
+
+/* التجاوب */
+@media (max-width: 992px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .sidebar-menu a {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-menu {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

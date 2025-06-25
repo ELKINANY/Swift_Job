@@ -1,0 +1,206 @@
+:root {
+  --primary: #1e3a8a;
+  --secondary: #3b82f6;
+  --accent: #60a5fa;
+  --light: #f9fafb;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+.custom-navbar {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+}
+
+.custom-navbar .navbar-brand img {
+  height: 60px;
+  transition: transform 0.3s ease;
+}
+
+.custom-navbar .navbar-brand img:hover {
+  transform: scale(1.05);
+}
+
+.custom-navbar .navbar-toggler {
+  border: none;
+  color: white;
+}
+
+.custom-navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 0.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.custom-navbar .navbar-nav .nav-link {
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.25rem;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.custom-navbar .navbar-nav .nav-link:hover,
+.custom-navbar .navbar-nav .nav-link.active {
+  color: var(--light);
+}
+
+.custom-navbar .navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  right: 0;
+  background-color: var(--light);
+  transition: width 0.3s ease;
+}
+
+.custom-navbar .navbar-nav .nav-link:hover::after,
+.custom-navbar .navbar-nav .nav-link.active::after {
+  width: 100%;
+}
+
+.custom-navbar .navbar-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.custom-navbar .navbar-btn-custom-primary {
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+}
+
+.custom-navbar .navbar-btn-custom-primary:hover {
+  background-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.custom-navbar .navbar-btn-primary {
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+}
+
+.custom-navbar .navbar-btn-primary:hover {
+  background-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.custom-navbar .navbar-btn-outline-primary {
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+.custom-navbar .navbar-btn-outline-primary:hover {
+  background-color: var(--secondary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.custom-navbar .navbar-btn-outline-secondary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.custom-navbar .navbar-btn-outline-secondary:hover {
+  background-color: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.custom-navbar .navbar-btn-outline-success {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.custom-navbar .navbar-btn-outline-success:hover {
+  background-color: var(--success);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.custom-navbar .navbar-btn-outline-info {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.custom-navbar .navbar-btn-outline-info:hover {
+  background-color: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.custom-navbar .navbar-btn-warning {
+  background-color: var(--warning);
+  color: white;
+  border: none;
+}
+
+.custom-navbar .navbar-btn-warning:hover {
+  background-color: #d97706;
+  transform: translateY(-2px);
+}
+
+.custom-navbar .navbar-btn-danger {
+  background-color: var(--danger);
+  color: white;
+  border: none;
+}
+
+.custom-navbar .navbar-btn-danger:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+.custom-navbar .navbar-collapse {
+  transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .custom-navbar .navbar-nav {
+    background-color: var(--primary);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .custom-navbar .navbar-nav .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .custom-navbar .navbar-nav .nav-link::after {
+    display: none;
+  }
+
+  .custom-navbar .d-flex {
+    flex-direction: column;
+    gap: 0.5rem !important;
+    margin-top: 1rem;
+  }
+
+  .custom-navbar .navbar-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .custom-navbar .navbar-brand img {
+    height: 50px;
+  }
+
+  .custom-navbar {
+    padding: 0.5rem;
+  }
+}
